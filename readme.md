@@ -226,3 +226,96 @@ Filter Syntax
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
+
+## Q. ***What are Directives in AngularJS?***
+
+AngularJS directives are a combination of AngularJS template markups (HTML attributes or elements, or CSS classes) and supporting JavaScript code. The JavaScript directive code defines the template data and behaviors of the HTML elements.
+
+AngularJS directives are used to extend the HTML vocabulary i.e. they decorate html elements with new behaviors and help to manipulate html elements attributes in interesting way.
+
+There are some built-in directives provided by AngularJS like as ng-app, ng-controller, ng-repeat, ng-model etc.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is the role of ng-app, ng-init and ng-model directives?***
+
+The main role of these directives is explained as:
+
+- ```ng-app``` - Initialize the angular app.
+- ```ng-init``` - Initialize the angular app data.
+- ```ng-model``` - Bind the html elem
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What are different ways to invoke a directive?***
+
+There are four methods to invoke a directive in your angular app which are equivalent.
+
+| Method          | Syntax |
+|-----------------|--------|
+| As an attribute |    ```<span my-directive></span>```    |
+| As a class      |    ```<span class="my-directive: expression;"></span>```    |
+| As an element   |    ```<my-directive></my-directive>```    |
+| As a comment    |    ```<!-- directive: my-directive expression -->```    |
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is restrict option in directive?***
+
+The restrict option in angular directive, is used to specify how a directive will be invoked in your angular app i.e. as an attribute, class, element or comment.
+
+There are four valid options for restrict:
+
+```html
+'A' (Attribute)- <span my-directive></span>
+'C' (Class)- <span class="my-directive:expression;"></span>
+'E' (Element)- <my-directive></my-directive>
+'M' (Comment)- <!-- directive: my-directive expression -->
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***Can you define multiple restrict options on a directive?***
+
+You can also specify multiple restrict options to support more than one methods of directive invocation as an element or an attribute. Make sure all are specified in the restrict keyword as: ```restrict: 'EA'``` .
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is auto bootstrap process in AngularJS?***
+
+Angular initializes automatically upon ```DOMContentLoaded``` event or when the angular.js script is downloaded to the browser and the ```document.readyState``` is set to ```complete```. At this point AngularJS looks for the ```ng-app``` directive which is the root of angular app compilation and tells about AngularJS part within DOM. When the ```ng-app``` directive is found then Angular will:
+
+1. Load the module associated with the directive.
+2. Create the application injector.
+3. Compile the DOM starting from the ng-app root element.
+This process is called auto-bootstrapping.
+
+```html
+<!doctype html>
+<html>
+<body ng-app="myApp">
+<div ng-controller="Ctrl"> Hello {{msg}}!
+</div>
+    <script src="lib/angular.js"></script>
+    <script>
+var app = angular.module('myApp', []); app.controller('Ctrl', function ($scope) {
+              $scope.msg = 'World';
+          });
+    </script>
+</body>
+</html>
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
