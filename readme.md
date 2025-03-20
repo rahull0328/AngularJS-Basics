@@ -1,5 +1,5 @@
 # AngularJS Basics
-git 
+
 > *Click &#9733; if you like the project. Your contributions are heartily ♡ welcome.*
 
 <br/>
@@ -117,3 +117,112 @@ git
 | 80. |[Having the JWT token, what is the format of the Authorization header looks like?](#q-having-the-jwt-token--what-is-the-format-of-the-authorization-header-looks-like)|
 
 <br/>
+
+## Q. ***Why to use AngularJS?***
+
+There are following reasons to choose AngularJS as a web development framework:
+
+1. It is based on MVC pattern which helps you to organize your web apps or web application properly.
+2. It extends HTML by attaching directives to your HTML markup with new attributes or tags and expressions
+in order to define very powerful templates.
+3. It also allows you to create your own directives, making reusable components that fill your needs and
+abstract your DOM manipulation logic.
+4. It supports two-way data binding i.e. connects your HTML (views) to your JavaScript objects (models)
+seamlessly. In this way any change in model will update the view and vice versa without any DOM
+manipulation or event handling.
+5. It encapsulates the behavior of your application in controllers which are instantiated with the help of
+dependency injection.
+6. It supports services that can be injected into your controllers to use some utility code to fullfil your need.
+For example, it provides $http service to communicate with REST service.
+7. It supports dependency injection which helps you to test your angular app code very easily.
+8. Also, AngularJS is mature community to help you. It has widely support over the internet.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What are the advantage of AngularJS?***
+
+There are following advantages of AngularJS:
+
+1. **Data Binding** - AngularJS provides a powerful data binding mechanism to bind data to HTML elements by using scope.
+2. **Customize & Extensible** - AngularJS is customized and extensible as per you requirement. You can create your own custom components like directives, services etc.
+3. **Code Reusability** - AngularJS allows you to write code which can be reused. For example custom directive which you can reuse.
+4. **Support** – AngularJS is mature community to help you. It has widely support over the internet. Also, AngularJS is supported by Google which gives it an advantage.
+5. **Compatibility** - AngularJS is based on JavaScript which makes it easier to integrate with any other JavaScript library and runnable on browsers like IE, Opera, FF, Safari, Chrome etc.
+6. **Testing** - AngularJS is designed to be testable so that you can test your AngularJS app components as easy as possible. It has dependency injection at its core, which makes it easy to test.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is jQLite/jQuery Lite?***
+
+jQLite is a subset of jQuery that is built directly into AngularJS. jQLite provides you all the useful features of jQuery. In fact it provides you limited features or functions of jQuery.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***How to access jQLite?***
+
+jQuery lite or the full jQuery library if available, can be accessed via the AngularJS code by using the element(Q. function in AngularJS. Basically, ```angular.element()``` is an alias for the jQuery function.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What are the AngularJS features?***
+
+The features of AngularJS are listed below:
+
+1. Modules
+2. Directives
+3. Templates
+4. Scope
+5. Expressions
+6. Data Binding
+7. MVC (Model, View & Controller)
+8. Validations
+9. Filters
+10. Services
+11. Routing
+12. Dependency Injection
+13. Testing
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***When dependent modules of a module are loaded?***
+
+A module might have dependencies on other modules. The dependent modules are loaded by angular
+before the requiring module is loaded.
+In other words the configuration blocks of the dependent modules execute before the configuration blocks of the requiring module. The same is true for the run blocks. Each module can only be loaded once, even if multiple other modules require it.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is Angular’s prefixes $ and $$?***
+
+To prevent accidental name collisions with your code, Angular prefixes names of public objects with $ and
+names of private objects with $$. So, do not use the $ or $$ prefix in your code.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What are Filters in AngularJS?***
+
+Filters are used to format data before displaying it to the user. They can be used in view templates, controllers, services and directives. There are some built-in filters provided by AngularJS like as Currency, Date, Number, OrderBy, Lowercase, Uppercase etc. You can also create your own filters.
+
+Filter Syntax
+
+```javascript
+  {{ expression | filter}}
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
