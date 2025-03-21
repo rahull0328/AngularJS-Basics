@@ -319,3 +319,520 @@ var app = angular.module('myApp', []); app.controller('Ctrl', function ($scope) 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
+
+
+## Q. ***What is manual bootstrap process in AngularJS?***
+
+You can manually initialized your angular app by using **angular.bootstrap()** function. This function takes the modules as parameters and should be called within **angular.element(document).ready()** function. The **angular.element(document).ready()** function is fired when the DOM is ready for manipulation.
+
+```html
+<!doctype html>
+<html>
+<body>
+    <div ng-controller="Ctrl"> Hello {{msg}}! </div>
+<script src="lib/angular.js"></script>
+<script>
+  var app = angular.module('myApp', []);
+  app.controller('Ctrl', function ($scope) {
+        $scope.msg = 'World';
+    });
+  //manual bootstrap process
+  angular.element(document).ready(function () { angular.bootstrap(document, ['myApp']);
+  });
+</script>
+</body>
+</html>
+```
+
+Note:
+
+- You should not use the ng-app directive when manually bootstrapping your app.
+- You should not mix up the automatic and manual way of bootstrapping your app.
+- Define modules, controller, services etc. before manually bootstrapping your app as defined in above example.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is scope in AngularJS?***
+
+Scope is a JavaScript object that refers to the application model. It acts as a context for evaluating angular expressions. Basically, it acts as glue between controller and view.
+
+Scopes are hierarchical in nature and follow the DOM structure of your AngularJS app. AngularJS has two scope objects: **$rootScope** and **$scope**.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is $scope and $rootScope?***
+
+**$scope** - A $scope is a JavaScript object which is used for communication between controller and view. Basically, $scope binds a view (DOM element) to the model and functions defined in a controller.
+
+**$rootScope** - The $rootScope is the top-most scope. An app can have only one $rootScope which will be shared among all the components of an app. Hence it acts like a global variable. All other $scopes are children of the $rootScope.
+For example, suppose you have two controllers: Ctrl1 and Ctrl2 as given below:
+
+```html
+<!doctype html>
+<html>
+  <body ng-app="myApp">
+      <div ng-controller="Ctrl1" style="border:2px solid blue; padding:5px"> Hello {{msg}}! <br />
+        Hello {{name}}! (rootScope) </div> <br />
+      <div ng-controller="Ctrl2" style="border:2px solid green; padding:5px">
+        Hello {{msg}}! <br />
+        Hey {{myName}}! <br />
+        Hi {{name}}! (rootScope) 
+      </div>
+  <script src="lib/angular.js"></script>
+  <script>
+        var app = angular.module('myApp', []); 
+        app.controller('Ctrl1', function ($scope, $rootScope) {
+          $scope.msg = 'Hello';
+          $rootScope.name = 'AngularJS';
+        });
+        app.controller('Ctrl2', function ($scope, $rootScope) { 
+          $scope.msg = 'World';
+          $scope.myName = $rootScope.name;
+        });
+    </script>
+  </body>
+</html>
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is scope hierarchy?***
+
+The **$scope** object used by views in AngularJS are organized into a hierarchy. There is a root scope, and the **$rootScope** can has one or more child scopes. Each controller has its own **$scope** (which is a child of the **$rootScope**), so whatever variables you create on $scope within controller, these variables are accessible by the view based on this controller.
+
+For example, suppose you have two controllers: ParentController and ChildController as given below:
+
+```html
+<!doctype html>
+<html>
+  <head>
+  <script src="lib/angular.js"></script>
+  <script>
+    var app = angular.module('ScopeChain', []);
+    app.controller("parentController", function ($scope) {
+	$scope.managerName = 'Shailendra Chauhan';
+	$scope.$parent.companyName = 'Dot Net Tricks'; //attached to $rootScope
+    });
+    app.controller("childController", function ($scope, $controller) {
+        $scope.teamLeadName = 'Deepak Chauhan';
+    });
+  </script>
+</head>
+<body ng-app="ScopeChain">
+	<div ng-controller="parentController ">
+		<table style="border:2px solid #e37112">
+		<caption>Parent Controller</caption>
+		<tr>
+        	   <td>Manager Name</td>
+		   <td>{{managerName}}</td>
+		</tr>
+		<tr>
+                    <td>Company Name</td>
+		    <td>{{companyName}}</td>
+		</tr>
+		<tr>
+		    <td><table ng-controller="childController" style="border:2px solid #428bca;">
+			<caption>Child Controller</caption>
+			<tr>
+                            <td>Team Lead Name</td>
+                            <td>{{ teamLeadName }}</td>
+                  </tr>
+		  <tr>
+                      <td>Reporting To</td>
+                      <td>{{managerName}}</td>
+                  </tr>
+                  <tr>
+                      <td>Company Name</td>
+                      <td>{{companyName}}</td>
+                 </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is the difference between $scope and scope?***
+
+The module factory methods like controller, directive, factory, filter, service, animation, config and run receive arguments through dependency injection (DI). In case of DI, you inject the **scope object** with the dollar prefix i.e. **$scope**. The reason is the **injected arguments** must match to the names of **injectable objects** followed by dollar ($) prefix.
+**For example**, you can inject the scope and element objects into a controller as given below:
+
+```javascript
+module.controller('MyController', function ($scope, $element) { // injected arguments });
+```
+
+When the methods like directive linker function don’t receive arguments through dependency injection, you just pass the **scope object** without using dollar prefix i.e. **scope**. The reason is the passing arguments are received by its caller.
+
+```javascript
+module.directive('myDirective', function () // injected arguments here {
+    return {
+        // linker function does not use dependency injection
+        link: function (scope, el, attrs) {
+        /** The calling function will passes the three arguments to the linker: 
+            scope, element and attributes, in the same order **/
+	} };
+});
+```
+
+In the case of non-dependency injected arguments, you can give the name of injected objects as you wish. The above code can be re-written as:
+
+```javascript
+module.directive("myDirective", function () {
+	return {
+        link: function (s, e, a) {
+            // s == scope
+	} };
+});
+// e == element
+```
+
+In short, in case of DI the **scope object** is received as **$scope** while in case of non-DI **scope object** is received as **scope** or with any name.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***How AngularJS is compiled?***
+
+Angular's HTML compiler allows you to teach the browser new HTML syntax. The compiler allows you to attach new behaviors or attributes to any HTML element. Angular calls these behaviors as directives.
+AngularJS compilation process takes place in the web browser; no server side or pre-compilation step is involved.
+Angular uses $compiler service to compile your angular HTML page. The angular' compilation process begins after your HTML page (static DOM) is fully loaded. It happens in two phases:
+
+1. Compile - It traverse the DOM and collect all of the directives. The result is a linking function.
+2. Link - It combines the directives with a scope and produces a live view. Any changes in the scope model are reflected in the view, and any user interactions with the view are reflected in the scope model.
+
+The concept of compile and link comes from C language, where you first compile the code and then link it to actually execute it. The process is very much similar in AngularJS as well.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***How AngularJS compilation is different from other JavaScript frameworks?***
+
+If you have worked on templates in other java script framework/library like backbone and jQuery, they process the template as a string and result as a string. You have to dumped this result string into the DOM where you wanted it with **innerHTML()**.
+
+AngularJS process the template in another way. It directly works on HTML DOM rather than strings and manipulates it as required. It uses two way data-binding between model and view to sync your data.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***How Directives are compiled?***
+
+It is important to note that Angular operates on DOM nodes rather than strings. Usually, you don't notice
+this because when an html page loads, the web browser parses HTML into the DOM automatically. HTML compilation happens in three phases:
+
+1. The $compile traverses the DOM and looks for directives. For each directive it finds, it adds it to a list of directives.
+2. Once the entire DOM has been traversed, it will sort that list of directives by their priority. Then, each directive’s own compile function is executed, giving each directive the chance to modify the DOM itself. Each compile function returns a linking function, which is then composed into a combined linking function and returned.
+3. $compile links the template with the scope by calling the combined linking function from the previous step. This in turn will call the linking function of the individual directives, registering listeners on the elements and setting up $watch with the scope as each directive is configured to do.
+
+The pseudo code for the above process is given below:
+
+```javascript
+var $compile = ...; // injected into your code
+var scope = ...;
+var parent = ...; // DOM element where the compiled template can be appended
+var html = '<div ng-bind="exp"></div>';
+// Step 1: parse HTML into DOM element
+var template = angular.element(html);
+// Step 2: compile the template
+var linkFn = $compile(template);
+// Step 3: link the compiled template with the scope.
+var element = linkFn(scope);
+// Step 4: Append to DOM (optional)
+parent.appendChild(element);
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What are Compile, Pre and Post linking in AngularJS?***
+
+* **Compile** – This compiles an HTML string or DOM into a template and produces a template function, which
+can then be used to link scope and the template together.
+Use the compile function to change the original DOM (template element) before AngularJS creates an instance of it and before a scope is created.
+
+* **Post-Link** – This is executed after the child elements are linked. It is safe to do DOM transformation in the post- linking function.
+Use the post-link function to execute logic, knowing that all child elements have been compiled and all pre-link and post-link functions of child elements have been executed.
+
+* **Pre-Link** – This is executed before the child elements are linked. Not safe to do DOM transformation since the compiler linking function will fail to locate the correct elements for linking.
+Use the pre-link function to implement logic that runs when AngularJS has already compiled the child elements, but before any of the child element's post-link functions have been called.
+
+
+```html
+<!doctype html>
+<html>
+  <head>
+  <title>Compile vs Link</title>
+  <script src="lib/angular.js"></script>
+  <script type="text/javascript">
+    var app = angular.module('app', []);
+
+    function createDirective(name) {
+      return function () {
+        return {
+          restrict: 'E',
+          compile: function (tElem, tAttrs) {
+            console.log(name + ': compile');
+
+            return {
+              pre: function (scope, iElem, attrs) {
+                console.log(name + ': pre link');
+              },
+              post: function (scope, iElem, attrs) {
+                console.log(name + ': post link');
+              }
+            }
+
+          }
+        }
+      }
+    };
+    app.directive('levelOne', createDirective('level-One'));
+    app.directive('levelTwo', createDirective('level-Two'));
+    app.directive('levelThree', createDirective('level-Three'));
+  </script>
+  </head>
+  <body ng-app="app">
+    <level-one>
+      <level-two>
+        <level-three>
+          Hello {{name}}
+        </level-three>
+      </level-two>
+    </level-one>
+  </body>
+</html>
+```
+
+Output:
+
+```shell
+level-One: compile
+level-Two: compile
+level-Three: compile
+level-One: pre link
+level-Two: pre link
+level-Three: pre link
+level-Three: post link
+level-Two: post link
+level-One: post link
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What are the directives in angularJS?***
+
+AngularJS directives are a combination of AngularJS template markups (HTML attributes or elements, or
+CSS classes) and supporting JavaScript code.The JavaScript directive code defines the template data and
+behaviors of the HTML elements.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is difference between $scope and scope?***
+
+$scope - In case of DI, you inject the scope object with the dollar prefix i.e. $scope. The reason is 
+the injected arguments must match to the names of injectable objects followed by dollar ($) prefix .
+	
+scope - When the methods like directive linker function don’t receive arguments through dependency injection,
+you just pass the scope object without using dollar prefix i.e. scope. The reason is the passing arguments 
+are received by its caller.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is difference between services and factory?***
+
+Service - It is just a function for the business layer of the application . It is act as a constauctor function
+and invoked once at a run time with new keyword.
+	
+factory - Factory give you the same capability of as .serice() , but it is more powerful and flexible . 
+A factory is a design pattern . Factory create objetcs such as new class instances , returns object literals,
+return functions and closures or even just return a simply string.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What are the basics steps to unit test an AngulatJS filter?***
+
+1. Inject the module that contains the filter.
+2. Provide any mocks that the filter relies on.
+3. Get an instance of the filter using $filter('yourFilterName').
+4. Assert your expectations.
+
+Dependency injection is a powerful software design pattern that Angular employs to compose responsibilities through an intrinsic interface. However, for those new to the process, it can be puzzling where you need to configure and mock these dependencies when creating your isolated unit tests. The open-source project “Angular Test Patterns” is a free resource that is focused on dispelling such confusion through high-quality examples.
+
+This question is useful since it can give you a feel for how familiar the candidate is with automated testing (TDD, BDD, E2E), as well as open up a conversation about approaches to code quality.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What should be the maximum number of concurrent "watches"? How would you keep an eye on that number?***
+
+To reduce memory consumption and improve performance it is a good idea to limit the number of watches on a page to 2,000. A utility called `ng-stats` can help track your watch count and digest cycles.
+
+Jank happens when your application cannot keep up with the screen refresh rate. To achieve 60 frames-per-second, you only have about 16 milliseconds for your code to execute. It is crucial that the scope digest cycles are as short as possible for your application to be responsive and smooth. Memory use and digest cycle performance are directly affected by the number of active watches. Therefore, it is best to keep the number of watches below 2,000. The open-source utility ng-stats gives developers insight into the number of watches Angular is managing, as well as the frequency and duration of digest cycles over time.
+
+**Caution:** Be wary of relying on a “single magic metric” as the golden rule to follow. You must take the context of your application into account. The number of watches is simply a basic health signal. If you have many thousands of watches, or worse, if you see that number continue to grow as you interact with your page. Those are strong indications that you should look under the hood and review your code.
+
+This question is valuable as it gives insight into how the candidate debugs runtime issues while creating a discussion about performance and optimization.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***How do you share data between controllers?***
+
+Create an AngularJS service that will hold the data and inject it inside of the controllers.
+
+Using a service is the cleanest, fastest and easiest way to test.
+However, there are couple of other ways to implement data sharing between controllers, like:
+– Using events
+– Using $parent, nextSibling, controllerAs, etc. to directly access the controllers
+– Using the $rootScope to add the data on (not a good practice)
+The methods above are all correct, but are not the most efficient and easy to test.
+There is a good video explanation on egghead.io.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is the difference between ng-show/ng-hide and ng-if directives?***
+ng-show/ng-hide will always insert the DOM element, but will display/hide it based on the condition. ng-if will not insert the DOM element until the condition is not fulfilled.
+
+ng-if is better when we needed the DOM to be loaded conditionally, as it will help load page bit faster compared to ng-show/ng-hide.
+
+We only need to keep in mind what the difference between these directives is, so deciding which one to use totally depends on the task requirements.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is a digest cycle in AngularJS?***
+
+In each digest cycle Angular compares the old and the new version of the scope model values. The digest cycle is triggered automatically. We can also use $apply() if we want to trigger the digest cycle manually.
+
+For more information, take a look in the ng-book explanation: The Digest Loop and $apply
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***Where should we implement the DOM manipulation in AngularJS?***
+
+In the directives. DOM Manipulations should not exist in controllers, services or anywhere else but in directives.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***Is it a good or bad practice to use AngularJS together with jQuery?***
+It is definitely a bad practice. We need to stay away from jQuery and try to realize the solution with an AngularJS approach. jQuery takes a traditional imperative approach to manipulating the DOM, and in an imperative approach, it is up to the programmer to express the individual steps leading up to the desired outcome.
+
+AngularJS, however, takes a declarative approach to DOM manipulation. Here, instead of worrying about all of the step by step details regarding how to do the desired outcome, we are just declaring what we want and AngularJS worries about the rest, taking care of everything for us.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***If you were to migrate from Angular 1.4 to 1.5, what is the main thing that would need refactoring?***
+Changing .directive to .component to adapt to the new Angular 1.5 components
+
+## Q. ***How would you specify that a scope variable should have one-time binding only?***
+By using “::” in front of it. This allows the check if the candidate is aware of the available variable bindings in AngularJS.
+
+## Q. ***What is the difference between one-way binding and two-way binding?***
+
+– One way binding implies that the scope variable in the html will be set to the first value its model is bound to (i.e. assigned to)
+
+– Two way binding implies that the scope variable will change it’s value everytime its model is assigned to a different value
+
+## Q. ***Explain how `$scope.$apply()` works?***
+
+It will re-evaluates all the declared ng-models and applies the change to any that have been altered (i.e. assigned to a new value)
+
+Explanation: $scope.$apply() is one of the core angular functions that should never be used explicitly, it forces the angular engine to run on all the watched variables and all external variables and apply the changes on their values
+
+## Q. ***What directive would you use to hide elements from the HTML DOM by removing them from that DOM not changing their styling?***
+
+The ngIf Directive, when applied to an element, will remove that element from the DOM if it’s condition is false.
+
+## Q. ***What makes the `angular.copy()` method so powerful?***
+
+It creates a deep copy of the variable.
+
+A deep copy of a variable means it doesn’t point to the same memory reference as that variable. Usually assigning one variable to another creates a “shallow copy”, which makes the two variables point to the same memory reference. Therefore if we change one, the other changes as well
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***How would you make an Angular service return a promise? Write a code snippet as an example?***
+
+To add promise functionality to a service, we inject the “$q” dependency in the service, and then use it like so:
+
+```javascript
+angular.factory('testService', function($q){
+	return {
+		getName: function(){
+			var deferred = $q.defer();
+
+			//API call here that returns data
+			testAPI.getName().then(function(name){
+				deferred.resolve(name)
+			})
+
+			return deferred.promise;
+		}
+	}
+})
+```
+The $q library is a helper provider that implements promises and deferred objects to enable asynchronous functionality
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is the role of services in AngularJS and name any services made available by default?***
+
+– AngularJS Services are objects that provide separation of concerns to an AngularJS app.
+– AngularJS Services can be created using a factory method or a service method.
+– Services are singleton components. All components of the application (into which the service is injected) will work with single instance of the service.
+– An AngularJS service allows developing of business logic without depending on the View logic which will work with it.
+
+ Few of the inbuilt services in AngularJS are:
+– the $http service: The $http service is a core Angular service that facilitates communication with the remote HTTP servers via the browser’s XMLHttpRequest object or via JSONP
+– the $log service: Simple service for logging. Default implementation safely writes the message into the browser’s console
+– the $anchorScroll: it scrolls to the element related to the specified hash or (if omitted) to the current value of $location.hash()
+Why should one know about AngularJS Services, you may ask. Well, understanding the purpose of AngularJS Services helps bring modularity to AngularJS code.
+Services are the best may to evolve reusable API within and AngularJS app
+
+Overview:
+
+AngularJS Services help create reusable components.
+A Service can be created either using the service() method or the factory() method.
+A typical service can be injected into another service or into an AngularJS Controller.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
