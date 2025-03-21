@@ -836,3 +836,207 @@ A typical service can be injected into another service or into an AngularJS Cont
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
+
+## Q. ***When creating a directive, it can be used in several different ways in the view. Which ways for using a directive  do you know? How do you define the way your directive will be used?***
+
+When you create a directive, it can be used as an attribute, element or class name. To define which way to use, you need to set the restrict option in your directive declaration.
+
+The restrict option is typically set to:
+
+‘A’ – only matches attribute name
+‘E’ – only matches element name
+‘C’ – only matches class name
+
+These restrictions can all be combined as needed:
+
+‘AEC’ – matches either attribute or element or class name
+
+For more information, feel free to check out the AngularJS documentation.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***When should you use an attribute Vs an element?***
+
+Use an element when you are creating a component that is in control of the template. Use an attribute when you are decorating an existing element with new functionality.
+
+This topic is important so developers can understand the several ways a directive can be used inside a view and when to use each way.
+
+
+## Q. ***How do you reset a `$timeout, $interval()`, and disable a `$watch()`?***
+
+To reset a timeout and/or $interval, assign the result of the function to a variable and then call the .cancel() function.
+
+```javascript
+var customTimeout = $timeout(function () {
+
+	 // arbitrary code
+}, 55);
+
+$timeout.cancel(customTimeout);
+```
+
+to disable $watch(), we call its deregistration function. $watch() then returns a deregistration function that we store to a variable and that will be called for cleanup
+```javascript
+var deregisterWatchFn = $scope.$on(‘$destroy’, function () {
+	// we invoke that deregistration function, to disable the watch
+		deregisterWatchFn();
+});		
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is $scope in AngularJS?***
+
+Scope is an object that refers to the application model. It is an execution context for expressions. Scopes are arranged in hierarchical structure which mimic the DOM structure of the application. Scopes can watch expressions and propagate events. Scopes are objects that refer to the model. They act as glue between controller and view.
+
+This question is important as it will judge a persons knowledge about a $scope object, and it is one of the most important concepts in AngularJS. Scope acts like a bridge between view and model.
+
+## Q. ***What are Directives?***
+
+Directives are markers on a DOM element (such as an attribute, element name, comment or CSS class) that tell AngularJS’s HTML compiler ($compile) to attach a specified behavior to that DOM element (e.g. via event listeners), or even to transform the DOM element and its children. Angular comes with a set of these directives built-in, like ngBind, ngModel, and ngClass. Much like you create controllers and services, you can create your own directives for Angular to use. When Angular bootstraps your application, the HTML compiler traverses the DOM matching directives against the DOM elements.
+
+This question is important because directives define the UI while defining a single page app. You need to be very clear about how to create a new custom directive or use the existing ones already pre-build in AngularJS.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is DDO `Directive Difinition Object`?***
+
+DDO is an object used while creating a custome directive. A standard DDO object has following parameters.
+```javascript
+var directiveDefinitionObject = {
+	priority: 0,
+	template: '<div></div>', // or // function(tElement, tAttrs) { ... },
+ 	// or
+	// templateUrl: 'directive.html', // or // function(tElement, tAttrs) { ... },
+	transclude: false,
+	restrict: 'A',
+	templateNamespace: 'html',
+	scope: false,
+	controller: function($scope, $element, $attrs, $transclude, otherInjectables) { ... },
+	controllerAs: 'stringIdentifier',
+	bindToController: false,
+	require: 'siblingDirectiveName', // or ['^parentDirectiveName', '?optionalDirectiveName', '? ^optionalParent'],
+	compile: function compile(tElement, tAttrs, transclude) {
+	  return {
+		    pre: function preLink(scope, iElement, iAttrs, controller) { ... },
+  		    post: function postLink(scope, iElement, iAttrs, controller) { ... }
+  		}
+  		// or
+ 		 // return function postLink( ... ) { ... }
+	},
+	// or
+	// link: {
+	//  pre: function preLink(scope, iElement, iAttrs, controller) { ... },
+	//  post: function postLink(scope, iElement, iAttrs, controller) { ... }
+	// }
+	// or
+	// link: function postLink( ... ) { ... }
+};
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What is a singleton pattern and where we can find it in AngularJS?***
+
+Is a great pattern that restricts the use of a class more than once. We can find singleton pattern in angular in dependency injection and in the services.
+
+In a sense, if you do 2 times ‘new Object()‘ without this pattern, you will be alocating 2 pieces of memory for the same object. With singleton pattern, if the object exists, you reuse it.
+
+
+## Q. ***What is an interceptor?*** 
+
+An interceptor is a middleware code where all the $http requests go through. The interceptor is a factory that are registered in `$httpProvider`.
+
+## Q. ***What are common uses of an interceptor in AngularJS?***
+
+There are two types of requests that go through the interceptor, request and response (with requestError and responseError respectively). This piece of code is very useful for error handling, authentication or middleware in all the requests/responses.
+
+
+## Q. ***How would you programatically change or adapt the template of a directive before it is executed and transformed?***
+
+You would use the compile function. The compile function gives you access to the directive’s template before transclusion occurs and templates are transformed, so changes can safely be made to DOM elements. This is very useful for cases where the DOM needs to be constructed based on runtime directive parameters.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***How would you validate a text input field for a twitter username, including the @ symbol?***
+
+You would use the ngPattern directive to perform a regex match that matches Twitter usernames. The same principal can be applied to validating phone numbers, serial numbers, barcodes, zip codes and any other text input.
+Note: This directive is also added when the plain pattern attribute is used, with two differences:
+ngPattern does not set the pattern attribute and therefore HTML5 constraint validation is not available.
+The ngPattern attribute must be an expression, while the pattern value must be interpolated.
+
+```html
+<script>
+ 	 angular.module('ngPatternExample', [])
+    		.controller('ExampleController', ['$scope', function($scope) {
+     		 $scope.regex = '\\d+';
+   	 }]);
+</script>
+<div ng-controller="ExampleController">
+ 	 <form name="form">
+   	 <label for="regex">Set a pattern (regex string): </label>
+   	 <input type="text" ng-model="regex" id="regex" />
+   	 <br>
+    	<label for="input">This input is restricted by the current pattern: </label>
+    	<input type="text" ng-model="model" id="input" name="input" ng-pattern="regex" /><br>
+    	<hr>
+    	input valid? = <code>{{form.input.$valid}}</code><br>
+   	 model = <code>{{model}}</code>
+  	</form>
+</div>
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***How would you implement application-wide exception handling in your Angular app?***
+
+Angular has a built-in error handler service called $exceptionHandler which can easily be overriden as seen below:
+```javascript
+	myApp.factory('$exceptionHandler', function($log, ErrorService) {
+   		 return function(exception, cause) {
+        	if (console) {
+          	  $log.error(exception);
+          	  $log.error(cause);
+      		  }
+      			ErrorService.send(exception, cause);
+   		 };	 
+	});
+```
+This is very useful for sending errors to third party error logging services or helpdesk applications. Errors trapped inside of event callbacks are not propagated to this handler, but can manually be relayed to this handler by calling $exceptionHandler(e) from within a try catch block.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***How do you hide an HTML element via a button click in AngularJS?***
+
+You can do this by using the `ng-hide` directive in conjunction with a controller we can hide an HTML element on button click.
+```html
+<div ng-controller="MyCtrl">
+	<button ng-click="hide()">Hide element</button>
+	<p ng-hide="isHide">Hello World!</p>
+</div>	
+
+function MyCtrl($scope) {
+	$scope.isHide = false;
+	$scope.hide = function() {
+	  $scope.isHide = true;
+	}
+}
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
