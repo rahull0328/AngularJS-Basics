@@ -106,16 +106,6 @@
 | 74. |[Using the Angular Http module to make a request, which method is used to listen for an emitted response?](#q-using-the-angular-http-module-to-make-a-request--which-method-is-used-to-listen-for-an-emitted-response)|
 | 75. |[An Angular class that used to create an instance that will be an argument to the request method of http is?](#q-an-angular-class-that-used-to-create-an-instance-that-will-be-an-argument-to-the-request-method-of-http-is)| 
 
-### Miscellaneous
-
-|Sl.No|  Questions                                                                                                  |
-|-----|-------------------------------------------------------------------------------------------------------------|
-| 76. |[What is the best practice to build your application](#q-what-is-the-best-practice-to-build-your-application)|
-| 77. |[When it is necessary or whether it is necessary to use `$scope.$apply`](#q-when-it-is-necessary-or-whether-it-is-necessary-to-use---scope-apply)|
-| 78. |[A JSON Web Token consists of?](#q-a-json-web-token-consists-of)|
-| 79. |[A JWT should be signed with a secret called?](#q-a-jwt-should-be-signed-with-a-secret-called)|
-| 80. |[Having the JWT token, what is the format of the Authorization header looks like?](#q-having-the-jwt-token--what-is-the-format-of-the-authorization-header-looks-like)|
-
 <br/>
 
 ## Q. ***Why to use AngularJS?***
@@ -1402,6 +1392,127 @@ The authorization header should be `Bearer [token]`.
     });
 })(angular);
  </script>
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q.	***Provider with Constant***
+
+```html
+ <div ng-controller="IndexCtrl as vm">
+            {{vm.sayHello('Thomson')}}
+            <br/> <br/>
+	   <select ng-model='vm.lang' ng-change="vm.setLang()">
+			<option value="en">English</option>
+			<option value="hn">Hindi</option>
+			<option value="fr">French</option>
+		</select>
+</div>
+<script>
+(function (angular){
+     angular.module('app', [])
+
+    .provider('hello', function(){
+        var lang = 'en';
+        var db = {
+            en: 'Hello',
+            hn: 'Namaste',
+            fr: 'Bonjour'
+        };
+
+        function setLang (input){ //global function
+            lang = input;
+        }
+
+        this.setLang = setLang;
+
+        this.$get = function () {
+            return {
+                greeting: function (name) {
+                    return db[lang] + ' ' + name + ' !!!';
+                },
+
+                setLang: setLang  // When we want to declare global function 
+            };
+        };
+
+    })
+
+    .controller('IndexCtrl', function(hello) {
+        var vm = this;
+        
+        vm.sayHello = function(name){
+            return hello.greeting(name);
+        };
+
+        vm.setLang = function() {
+            hello.setLang(vm.lang);
+        };
+    })
+
+    .constant('config', { // we can't inject "value service" inside config()
+        lang: 'en'
+    })
+
+    .config(function (config, helloProvider){
+        helloProvider.setLang(config.lang);
+    });
+})(angular);
+</script>  
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q.	***Component vs Module in AngularJS***
+
+Components controls views (html). Also communicates with other components and services.
+
+Modules consist of one or more components. They do not control any html. Modules declare which components can be used by components belonging to other modules, which classes will be injected by dependency injector and which component gets bootstrapped.
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q.	***AngularJS Components***
+
+```
+> templateUrl
+> $stateParams --> 
+> $state.go -->
+> $state -->
+> $event -->
+> $routeChangeError
+```
++function() { console.log("Foo!"); }(); --> It forces the parser to treat the part following the + as an expression. This is usually used for functions that are invoked immediately. + is just one of the options. It can also be -, !, ~, or just about any other unary operator
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***What are the differences between ng-repeat and ng-options and why do they not behave the same way?***
+
+ng-repeat creates a new scope for each iteration so will not perform as well as ng-options.
+
+For small lists, it will not matter, but larger lists should use ng-options. Apart from that, It provides lot of flexibility in specifying iterator and offers performance benefits over ng-repeat.
+
+Example:
+```html
+<!-- ng-repeat Example -->
+<select>
+  <option ng-repeat="x in names">{{x}}</option>
+</select>
+
+
+<!-- ng-options Example -->
+<select ng-model="selectedName" ng-options="x for x in names"></select>
+```
+
+```js
+$scope.names = ["Emil", "Tobias", "Linus"];
 ```
 
 <div align="right">
