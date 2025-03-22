@@ -1040,3 +1040,370 @@ function MyCtrl($scope) {
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
+
+## Q. ***How would you react on model changes to trigger some further action? For instance, say you have an input text field called email and you want to trigger or execute some code as soon as a user starts to type in their email?***
+
+We can achieve this using $watch function in our controller.
+```javascript
+function MyCtrl($scope) {
+	$scope.email = "";
+
+	$scope.$watch("email", function(newValue, oldValue) {
+		if ($scope.email.length > 0) {
+			console.log("User has started writing into email");
+		}
+	});
+}	
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q. ***How do you disable a button depending on a checkbox’s state?***
+
+We can use the ng-disabled directive and bind its condition to the checkbox’s state.
+```html
+<body ng-app>
+	<label><input type="checkbox" ng-model="checked"/>Disable Button</label>
+	<button ng-disabled="checked">Select me</button>
+</body>
+```
+## Q. ***In angular, what does the calls to the HTTP methods  return?***
+In angular, calls to the HTTP methods actually return an observable and not a promise. You can think of an observable as a stream of events, and meeting values to anyone who has subscribed to it.
+
+## Q. ***Using the Angular Http module to make a request, which method is used to listen for an emitted response?***
+In Angular Http module to make a request,  method is used to listen for an emitted response.Subscribe
+
+## Q. ***What is the Router directive that can be placed on elements to navigate to a new route?***
+Router directive that can be placed on elements to navigate to a new route is `[routerLink]`.
+
+## Q. ***Assuming "form" is an NgForm object, which property is used to retrieve the form values?***
+
+The form value can be retrieved by `[form.value]`.
+
+## Q. ***An Angular class that used to create an instance that will be an argument to the request method of http is?***
+`[Request]`.
+
+
+## Q. ***A JSON Web Token consists of?***
+JSON Web Token consists of header, payload and signature. You can read more at https://jwt.io/
+
+## Q. ***A JWT should be signed with a secret called ?***
+High security password. Generating long, high-quality random passwords is
+not simple. You can easily generate one via this link https://www.grc.com/passwords.htm
+
+## Q. ***Having the JWT token, what is the format of the Authorization header looks like?***
+The authorization header should be `Bearer [token]`.
+
+
+## Q.	***Directive Example***
+
+```javascript
+.directive("enter", function(){
+	return function(scope, element){
+		element.bind("mouseenter", function(){
+			console.log("I'm inside!");
+		})
+	}
+});
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q.	***IIFE Pattern used in AngularJS***
+
+```html
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Angular Js</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+
+    <script src="persons.js"></script>
+    <style>
+        body { padding-top: 70px; }
+    </style>
+</head>
+<body ng-app="app">
+	<div ng-controller="IndexCtrl as vm">
+		<h1>{{vm.greeting}} {{vm.name}}</h1>
+		<input type="text" ng-model="vm.name">
+   </div>
+</body>
+<script>
+	(function(){
+
+			angular.module('app', []);
+
+			angular.module('app').controller('IndexCtrl', displayCtrl);
+
+			displayCtrl.$inject = [];
+
+			function displayCtrl (){
+				this.greeting = "Hello";
+				this.name = "Thomson";
+			}
+	
+	})();
+</script>	
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q.	***Filter used in JavaScript part***
+
+```html
+<body ng-app="app">
+	<div ng-controller="IndexCtrl as vm">
+		<h1>{{vm.greeting}} {{vm.name}}</h1>
+		<input type="text" ng-model="vm.name">
+	</div>
+</body>
+<script>
+	(function(){
+
+			angular.module('app', []);
+
+			angular.module('app').controller('IndexCtrl', displayCtrl);
+
+			displayCtrl.$inject = ['$filter'];
+
+			function displayCtrl ($filter){
+				this.greeting = $filter('uppercase')("Hello");
+				this.name = "Thomson";
+			}
+	
+	})();
+</script>
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q.	***Factory in AngularJS***
+
+```html
+<div ng-controller="IndexCtrl as vm">
+	<h4>{{vm.greeting}} {{vm.name}} !!!</h4>
+	<hr/>
+
+	<input type="text" ng-model="vm.q"><br/>
+	<div><b>Total Count : {{vm.count}}</b></div><br/>
+
+		<ul>
+			<li ng-repeat="person in vm.persons | filter:vm.q">
+				{{person.name.first}} {{person.name.last}}
+			</li>
+		</ul>
+</div>
+<script>
+
+  (function (angular) {
+    'use strict';
+
+        angular.module('app', []);
+
+        angular.module('app').controller('IndexCtrl', indexCtrl);
+
+        indexCtrl.$inject = ['store'];
+
+        function indexCtrl(store) {
+          var vm = this;
+
+          vm.name = 'Thomson';
+          vm.greeting = 'Hello';
+          vm.persons = store.getPersons();
+          vm.count = store.getPersonCount();
+        }
+
+
+      angular.module('app').factory('store', function(){
+          function getPersons(){
+            return persons;
+          }
+
+          function getPersonCount(){
+            return getPersons().length;
+          }
+          return {
+            getPersons: getPersons,
+            getPersonCount: getPersonCount
+          };
+      });
+
+  })(angular);
+
+</script>
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q.	***Value in AngularJS***
+
+```javascript
+ (function (angular) {
+    'use strict';
+
+        angular.module('app', []);
+
+        angular.module('app').controller('IndexCtrl', indexCtrl);
+
+        indexCtrl.$inject = ['appInfo'];
+
+        function indexCtrl( appInfo) {
+          var vm = this;
+
+          vm.name = appInfo.name;
+          vm.greeting = 'Hello';
+          
+        }
+
+      angular.module('app').value('appInfo', {
+        name: 'Thomson Angular Training App',
+        version: '0.0.1',
+        date: '2017-01-05'
+      });
+
+  })(angular);
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q.	***Creating Sub-Module in AngularJS ( Extending Module in AngularJS )***
+
+```javascript
+(function (angular) {
+    'use strict';
+
+        angular.module('app', ['app.util']);
+        angular.module('app.util', []);
+
+        angular.module('app').controller('IndexCtrl', indexCtrl);
+
+        indexCtrl.$inject = ['store', 'appInfo'];
+
+        function indexCtrl(store, appInfo) {
+          var vm = this;
+
+          vm.name = appInfo.name;
+          vm.greeting = 'Hello';
+          vm.persons = store.getPersons();
+          vm.count = store.getPersonCount();
+        }
+
+
+      angular.module('app').factory('store', function(){
+          function getPersons(){
+            return persons;
+          }
+
+          function getPersonCount(){
+            return getPersons().length;
+          }
+          return {
+            getPersons: getPersons,
+            getPersonCount: getPersonCount
+          };
+      });
+
+      angular.module('app.util').value('appInfo', {
+        name: 'Thomson Angular Training App',
+        version: '0.0.1',
+        date: '2017-01-05'
+      });
+
+  })(angular);
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q.	***config() vs run()***
+
+```javascript
+(function (angular) {
+    'use strict';
+	
+	  angular.module('app', []);
+	 
+	  angular.module('app').config(function(){ 		//Config Phase always execute first
+        console.log('Config Phase');
+      });
+
+      angular.module('app').run(function(store){
+        console.log('Run Phase', store.getPersons());
+      });
+	 
+ })(angular);
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+## Q.	***Provider***
+
+```html
+ <div class="container">
+		<div ng-controller="IndexCtrl as vm">
+				{{vm.hello.greeting('Thomson')}} // we can define function inside expression
+		</div>
+ </div>
+ <script>
+(function (angular){
+     angular.module('app', [])
+
+    .provider('hello', function(){
+        var lang = 'en';
+        var db = {
+            en: 'Hello',
+            hn: 'Namaste',
+            fr: 'Bonjour'
+        };
+
+        this.setLang = function (input){
+            lang = input;
+        };
+
+        this.$get = function () {
+            return {
+                greeting: function (name) {
+                    return db[lang] + ' ' + name + ' !!!';
+                }
+            };
+        };
+
+    })
+
+    .controller('IndexCtrl', function(hello) {
+        var vm = this;
+        
+        vm.sayHello = function(name){
+            return hello.greeting(name);
+        };
+    })
+
+    .config(function (helloProvider){
+        helloProvider.setLang('fr');
+    });
+})(angular);
+ </script>
+```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
