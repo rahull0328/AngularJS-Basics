@@ -106,6 +106,16 @@
 | 74. |[Using the Angular Http module to make a request, which method is used to listen for an emitted response?](#q-using-the-angular-http-module-to-make-a-request--which-method-is-used-to-listen-for-an-emitted-response)|
 | 75. |[An Angular class that used to create an instance that will be an argument to the request method of http is?](#q-an-angular-class-that-used-to-create-an-instance-that-will-be-an-argument-to-the-request-method-of-http-is)| 
 
+### Miscellaneous
+
+|Sl.No|  Questions                                                                                                  |
+|-----|-------------------------------------------------------------------------------------------------------------|
+| 76. |[What is the best practice to build your application](#q-what-is-the-best-practice-to-build-your-application)|
+| 77. |[When it is necessary or whether it is necessary to use `$scope.$apply`](#q-when-it-is-necessary-or-whether-it-is-necessary-to-use---scope-apply)|
+| 78. |[A JSON Web Token consists of?](#q-a-json-web-token-consists-of)|
+| 79. |[A JWT should be signed with a secret called?](#q-a-jwt-should-be-signed-with-a-secret-called)|
+| 80. |[Having the JWT token, what is the format of the Authorization header looks like?](#q-having-the-jwt-token--what-is-the-format-of-the-authorization-header-looks-like)|
+
 <br/>
 
 ## Q. ***Why to use AngularJS?***
@@ -1514,6 +1524,19 @@ Example:
 ```js
 $scope.names = ["Emil", "Tobias", "Linus"];
 ```
+
+<div align="right">
+    <b><a href="#">↥ back to top</a></b>
+</div>
+
+#### Q. ***What directives are user to show and hide HTML elements in AngularJS?***
+#### Q. ***Explain directives ng-if, ng-switch and ng-repeat?***
+#### Q. ***What are ng-repeat special variables?***
+#### Q. ***How AngularJS handle data binding?***
+#### Q. ***Please tell about life cycle of angularjs application?***
+#### Q. ***Please explain what is controller/model/view in angularjs?***
+
+*ToDo*
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
